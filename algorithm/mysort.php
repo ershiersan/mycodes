@@ -126,4 +126,3 @@ echo implode(', ', countingSort($arrExp))."\n";
 fast2($arrExp);
 echo implode(', ', $arrExp)."\n";
 
-echo json_encode(['flag'=>'success', 'data'=>htmlspecialchars('<img src="http://192.168.31.79/Public/Common/kindeditor/attached/image/20151112/20151112031247_87435.jpg" alt="" />')]);
