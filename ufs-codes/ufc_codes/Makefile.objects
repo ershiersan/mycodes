@@ -1,0 +1,8 @@
+ufs_codes.lo: /php-ext/ufs_codes/ufs_codes.c
+	$(LIBTOOL) --mode=compile $(CC)  -I. -I/php-ext/ufs_codes $(COMMON_FLAGS) $(CFLAGS_CLEAN) $(EXTRA_CFLAGS)  -c /php-ext/ufs_codes/ufs_codes.c -o ufs_codes.lo 
+$(phplibdir)/ufs_codes.la: ./ufs_codes.la
+	$(LIBTOOL) --mode=install cp ./ufs_codes.la $(phplibdir)
+
+./ufs_codes.la: $(shared_objects_ufs_codes) $(UFS_CODES_SHARED_DEPENDENCIES)
+	$(LIBTOOL) --mode=link $(CC) $(COMMON_FLAGS) $(CFLAGS_CLEAN) $(EXTRA_CFLAGS) $(LDFLAGS) -o $@ -export-dynamic -avoid-version -prefer-pic -module -rpath $(phplibdir) $(EXTRA_LDFLAGS) $(shared_objects_ufs_codes) $(UFS_CODES_SHARED_LIBADD)
+

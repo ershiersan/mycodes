@@ -1,0 +1,139 @@
+// ufs_codes.c
+#include "php_ufs_codes.h"
+#include "functions.c"
+
+ZEND_FUNCTION(makeSignAndMixWithNumber)
+{
+/*
+        makeSignAndMixWithNumber(
+            $this->_salt,
+            $this->_numbering,
+            $this->_bin_numbering,
+            $this->_numbering_bin_length,
+            $this->_garble_bin_length,
+            $this->_interference
+
+        );
+        {
+            // 签名二进制
+            $bin_garble = $this->getGarbleBin($this->_salt, $this->_numbering, $this->_garble_bin_length);
+            // 混合签名和编号二进制
+            $implodeBin41 = $this->implodeBins($bin_garble, $this->_bin_numbering);
+            // 获取乱序的参数
+            $arrDisruptParams = $this->getDisruptParams($this->_garble_bin_length, $this->_numbering_bin_length, $this->_interference+pow($this->getBinSum($implodeBin41), 3));
+            // 获取乱序的（混合签名和编号二进制）
+            $disruptedBin41 = $this->disruptOrder($implodeBin41, $arrDisruptParams);
+        }
+
+        return $disruptedBin41;
+*/
+    char *_salt;
+    int _salt_len;
+    char *_numbering;
+    int _numbering_len;
+    char *_bin_numbering;
+    int _bin_numbering_len;
+    char *_numbering_bin_length;
+    int _numbering_bin_length_len;
+    char *_garble_bin_length;
+    int _garble_bin_length_len;
+    char *_interference;
+    int _interference_len;
+    if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "ss",&_salt, &_salt_len, &_numbering, &_numbering_len, &_bin_numbering, &_bin_numbering_len, &_numbering_bin_length, &_numbering_bin_length_len, &_garble_bin_length, &_garble_bin_length_len, &_interference, &_interference_len) == FAILURE) {
+        RETURN_NULL();
+    }
+    
+    // 签名二进制
+                $bin_garble = $this->getGarbleBin($this->_salt, $this->_numbering, $this->_garble_bin_length);
+                // 混合签名和编号二进制
+                $implodeBin41 = $this->implodeBins($bin_garble, $this->_bin_numbering);
+                // 获取乱序的参数
+                $arrDisruptParams = $this->getDisruptParams($this->_garble_bin_length, $this->_numbering_bin_length, $this->_interference+pow($this->getBinSum($implodeBin41), 3));
+                // 获取乱序的（混合签名和编号二进制）
+                $disruptedBin41 = $this->disruptOrder($implodeBin41, $arrDisruptParams);
+
+
+
+
+
+
+
+
+
+
+        char *name;
+        int name_len;
+        char *greeting = "Mr./Mrs.";
+        int greeting_len = sizeof("Mr./Mrs.") - 1;
+        if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "s|s",&name, &name_len, &greeting, &greeting_len) == FAILURE) {
+            RETURN_NULL();
+        }
+        php_printf("Hello ");
+        PHPWRITE(greeting, greeting_len);
+        php_printf(" ");
+        PHPWRITE(name, name_len);
+        php_printf("!\n");
+        php_printf(func_test());
+
+
+
+
+
+//        ZVAL_LONG(return_value, 42);
+
+    zval *subarray;
+    array_init(return_value);
+
+    /* Add some scalars */
+    add_assoc_long(return_value, "life", 42);
+    add_index_bool(return_value, 123, 1);
+    add_next_index_double(return_value, 3.1415926535);
+
+    /* Toss in a static string, dup'd by PHP */
+    add_assoc_string(return_value, "world", "Foo", 1);
+
+    /* Now a manually dup'd string */
+    add_next_index_string(return_value, estrdup("Bar"), 0);
+
+    /* Create a subarray */
+    MAKE_STD_ZVAL(subarray);
+    array_init(subarray);
+
+    /* Populate it with some numbers */
+    add_next_index_long(subarray, 1);
+    add_next_index_long(subarray, 20);
+    add_next_index_long(subarray, 300);
+
+    /* Place the subarray in the parent */
+    add_index_zval(return_value, 444, subarray);
+        return;
+}
+
+
+static zend_function_entry ufs_functions[] = {
+    ZEND_FE(makeSignAndMixWithNumber,        NULL)
+    { NULL, NULL, NULL }
+};
+
+
+// module entry
+zend_module_entry ufs_codes_module_entry = {
+#if ZEND_MODULE_API_NO >= 20010901
+	STANDARD_MODULE_HEADER,
+#endif
+    "ufs_codes", //这个地方是扩展名称，往往我们会在这个地方使用一个宏。
+    ufs_functions,
+    NULL, /* MINIT */
+    NULL, /* MSHUTDOWN */
+    NULL, /* RINIT */
+    NULL, /* RSHUTDOWN */
+    NULL, /* MINFO */
+#if ZEND_MODULE_API_NO >= 20010901
+	"2.1", //这个地方是我们扩展的版本
+#endif
+	STANDARD_MODULE_PROPERTIES
+};
+
+#ifdef COMPILE_DL_UFS_CODES
+	ZEND_GET_MODULE(ufs_codes)
+#endif
